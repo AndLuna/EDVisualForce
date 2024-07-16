@@ -1,0 +1,121 @@
+<!--
+  @description       : 
+  @author            : Rodrigo Silva
+  @group             : 
+  @last modified on  : 04-26-2024
+  @last modified by  : Rodrigo Silva
+-->
+<apex:page renderAs="pdf" applyBodyTag="false" controller="orderInvoiceController">
+    <!--   -->
+
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <title>Fatura</title>
+        <apex:stylesheet value="{!URLFOR($Resource.PdfAssets, '/styles.css')}" />
+    </head>
+
+    <!-- HEADER -->
+    <div class="header">
+        <c:orderInvoiceHeader />
+    </div>
+
+    <div class="footer">
+        <c:orderInvoiceFooter />
+    </div>
+
+    <div class="content">
+        <!-- versão total da encomenda -->
+        <div class="breakable-table">
+            <h1>Total da encomenda</h1>
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <!-- HEADER -->
+                <tr>
+                    <th>Cód.int</th>
+                    <th>Produto</th>
+                    <th align="right">Uni.</th>
+                    <th align="right">Preço unit.</th>
+                    <th align="right">Bónus</th>
+                    <th align="right">Desconto</th>
+                    <th align="right">Preço liq.</th>
+                    <th align="right">Total</th>
+                </tr>
+                         <!-- PRODUTO - repetir apenas este -->
+                         <apex:repeat value="{!orderItems}" var="item">
+                            <tr>
+                                <td valign="middle">{!item.Product2.ProductN__c}</td>
+                                <td class="product-name" valign="middle">{!item.Product2.Name}</td>
+                                <td valign="middle" align="right">{!item.Quantity}</td>
+                                <td valign="middle" align="right">{!item.UnitPrice}€</td>
+                                <td valign="middle" align="right">{!item.DiscountAmountLine__c}€</td>
+                                <td valign="middle" align="right">
+                            <apex:outputText value="{!item.DiscountPercentage__c}%" rendered="{!item.DiscountPercentage__c != null}" />
+                            <apex:outputText value="{!item.DiscountPercentage__c}" rendered="{!item.DiscountPercentage__c == null}" />  
+                        </td>
+                                <td valign="middle" align="right">{!item.NetPrice__c}€</td>
+                                <td valign="middle" align="right">{!item.TotalNetPrice__c}€</td>
+                            </tr>
+                        </apex:repeat>  
+                        <tr>
+                            
+                            <th></th>
+                            <th>Total</th>
+                            <th align="right">{!totalItemsSum}</th>
+                            <th align="right"></th>
+                            <th align="right"></th>
+                            <th align="right"></th>
+                            <th align="right"></th>
+                            <th align="right">{!totalAmountWithDiscountSum}€</th>
+                        </tr>
+                    </table>
+                </div>
+                <br> <br></br></br>
+                <!-- Exibir ordens filhas, se houver -->
+                
+                <apex:repeat value="{!childOrders}" var="childOrder">
+                    <div class="breakable-table">
+                        <h1>{!childOrder.Account.Name}</h1>
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <!-- HEADER -->
+                            <tr>
+                                <th>Cód.int</th>
+                                <th>Produto</th>
+                                <th align="right">Uni.</th>
+                                <th align="right">Preço unit.</th>
+                                <th align="right">Bónus</th>
+                                <th align="right">Desconto</th>
+                                <th align="right">Preço liq.</th>
+                                <th align="right">Total</th>
+                            </tr>
+                            <!-- PRODUTO - repetir apenas este -->
+                            <apex:repeat value="{!childOrderItemsMap[childOrder.Id]}" var="childItem">
+                                <tr>
+                                    <td valign="middle">{!childItem.Product2.ProductN__c}</td>
+                                    <td class="product-name" valign="middle">{!childItem.Product2.Name} + {!childItem.Product2.Description2__c}</td>
+                                    <td valign="middle" align="right">{!childItem.Quantity}</td>
+                                    <td valign="middle" align="right">{!childItem.UnitPrice}€</td>
+                                    <td valign="middle" align="right">{!childItem.DiscountAmountLine__c}</td>
+                                    <td valign="middle" align="right">
+                                        <apex:outputText value="{!childItem.DiscountPercentage__c}%" rendered="{!childItem.DiscountPercentage__c != null}" />
+                                         <apex:outputText value="{!childItem.DiscountPercentage__c}" rendered="{!childItem.DiscountPercentage__c == null}" />  
+                                    </td>
+                                    <td valign="middle" align="right">{!childItem.NetPrice__c}€</td>
+                                    <td valign="middle" align="right">{!childItem.TotalNetPrice__c}€</td>
+                                </tr>
+                            </apex:repeat>
+                            <tr>
+                                <th></th>
+                                <th>Total</th>
+                                <th align="right">{!childOrder.SUM_Total_Itens__c}</th>
+                                <th align="right"></th>
+                                <th align="right"></th>
+                                <th align="right"></th>
+                                <th align="right"></th>
+                                <th align="right">{!childOrder.TotalAmountWithDiscount__c}€</th>
+                            </tr>
+                            <br> <br></br></br>
+                        </table>
+                    </div>
+                </apex:repeat>                
+            </div>
+        </apex:page>

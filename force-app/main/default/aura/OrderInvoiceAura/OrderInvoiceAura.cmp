@@ -1,0 +1,47 @@
+<!--
+  @description       : 
+  @author            : André Luna
+  @group             : 
+  @last modified on  : 04-07-2024
+  @last modified by  : André Luna
+  Modifications Log
+  Ver   Date         Author           Modification
+  1.0   02-07-2024   André Luna   Initial Version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader,force:hasSObjectName"
+                access="global">
+    
+    <aura:html tag="style">
+        .slds-modal__container {
+            min-width: 90vw;
+        }
+        .modal-body {
+            height: 1100px;
+            max-height: none;
+        }
+        #wrapper-body {
+            height: 99%;
+            max-height: none;
+        }
+        #wrapper-body .quick-actions-panel {
+            height: 99%;
+            max-height: none;
+        }
+        #wrapper-body .quick-actions-panel .slds-modal__content {
+            height: 100% !important;
+            max-height: none !important;
+        }
+        .close{
+            display:none;
+        }
+    </aura:html>
+
+    <aura:dependency resource="markup://force:lightningModal" type="COMPONENT" />
+    <aura:attribute name="recordId" type="String"/>
+    
+    <div class="slds-modal__content slds-p-around_medium customHeight" width="1000px" height="900px">
+        <c:orderGerarPDF recordId="{!v.recordId}" onclose="{!c.closeModal}"/>
+    </div>
+    
+    <button data-id='teste' class="slds-button slds-button_neutral close" onclick="{!c.closeModal}" title="Close"></button>
+</aura:component>

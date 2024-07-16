@@ -5,8 +5,8 @@
       "default": true
     }
   ],
-  "name": "MeuProjetoSalesforce",
+  "name": "vforce",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "59.0"
+  "sourceApiVersion": "61.0"
 }

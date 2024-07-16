@@ -1,0 +1,96 @@
+<!--
+  @description       : 
+  @author            : Rodrigo Silva
+  @group             : 
+  @last modified on  : 04-26-2024
+  @last modified by  : Rodrigo Silva
+-->
+<apex:component layout="none" controller="orderInvoiceController">
+    <!-- Image + pags -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="height:52px;">
+        <tr>
+            <td width="10%" valign="middle" align="center">
+                <apex:image value="{!URLFOR($Resource.PdfAssets, '/logo.png')}" height="50px" width="auto" />
+            </td>
+            <td width="80%"></td>
+            <td width="10%" valign="middle" align="center">
+                <h3></h3>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Client info -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="height: auto">
+        <tr>
+            <!-- LEFT TABLE -->
+            <td width="47.5%" valign="middle" align="center">
+                <table class="inner-table" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border: none"></td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="info-title" valign="middle" align="left">NOTA DE ENCOMENDA Nº</td>
+                        <td width="60%" valign="middle" align="left">{!formattedOrderReference}</td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="info-title" valign="middle" align="left">Núm. Requisição Cliente </td>
+                        <td width="60%" valign="middle" align="left">{!account.NClient__c}</td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="info-title" valign="middle" align="left">Vendedor</td>
+                        <td width="60%" valign="middle" align="left">{!opportunity.owner.Name}</td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="info-title" valign="middle" align="left">Data de Impressão</td>
+                        <td width="60%" valign="middle" align="left">{!formattedOrderCreationDate}</td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="info-title" valign="middle" align="left">Data documento</td>
+                        <td width="60%" valign="middle" align="left">{!formattedOrderCreationDate}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="border:none;" width="40%" class="info-title" valign="middle" align="left">Fornecedor</td>
+                        <td style="border:none;" width="60%" valign="middle" align="left"></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="5%"></td>
+            <!-- RIGHT TABLE -->
+            <td width="47.5%" valign="middle" align="center">
+                <table class="inner-table" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="30%" class="info-title" valign="middle" align="left">Morada</td>
+                        <td width="70%" valign="middle" align="left">
+                            {!account.BillingStreet}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%" class="info-title" valign="middle" align="left">C. Postal</td>
+                        <td width="70%" valign="middle" align="left">  
+                               {!account.BillingPostalCode}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%" class="info-title" valign="middle" align="left">Telefone</td>
+                        <td width="70%" valign="middle" align="left">{!account.Phone}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%" class="info-title" valign="middle" align="left">NIF</td>
+                        <td width="70%" valign="middle" align="left">{!account.TaxpayerNumber__c}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%" class="info-title" valign="middle" align="left">Nome fiscal</td>
+                        <td width="70%" valign="middle" align="left">
+                            {!account.Name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:none;" width="30%" class="info-title" valign="middle" align="left">Termo de Pagamento</td>
+                        <td style="border:none;" width="70%" valign="middle" align="left">{!account.PaymentTermsCode__c}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</apex:component>
